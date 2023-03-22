@@ -1,2 +1,6 @@
 data/
 */lightning_logs/
+*/mlruns/
+*/__pycache__/
+lightning_logs/
+mlruns/
