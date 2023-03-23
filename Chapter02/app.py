@@ -7,19 +7,19 @@ from flash.text import TextClassificationData,TextClassifier
 
 if __name__ == "__main__": 
 
-    mlflow.set_tracking_uri("databricks")
-    mlflow.set_experiment("/Users/lashi0812@gmail.com/mlflow")
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_experiment("mlflow1")
 
-    experiment = mlflow.get_experiment_by_name("/Users/lashi0812@gmail.com/mlflow")
+    experiment = mlflow.get_experiment_by_name("mlflow1")
 
-    download_data("https://pl-flash-data.s3.amazonaws.com/imdb.zip","../data/")
+    # download_data("https://pl-flash-data.s3.amazonaws.com/imdb.zip","../data/")
 
     data_module = TextClassificationData.from_csv(
         input_field="review",
         target_fields="sentiment",
-        train_file="../data/imdb/train.csv",
-        val_file="../data/imdb/valid.csv",
-        test_file="../data/imdb/test.csv",
+        train_file="./data/imdb/train.csv",
+        val_file="./data/imdb/valid.csv",
+        test_file="./data/imdb/test.csv",
         batch_size=64,
     )
 
@@ -34,4 +34,4 @@ if __name__ == "__main__":
                         run_name="colab"):
         trainer.finetune(model,datamodule=data_module,
                         strategy="freeze")
-        trainer.test()
+        # trainer.test()
