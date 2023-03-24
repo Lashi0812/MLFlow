@@ -50,7 +50,4 @@ entry_points:
     command:
       "python pipeline/register_model.py --mlflow_run_id {mlflow_run_id} \
       --registered_model_name {registered_model_name}"
-
-      
-python pipeline/register_model.py --mlflow_run_id 3c102fd801b345f9a528c55c46c8fdf8 --registered_model_name finetune_model
       
