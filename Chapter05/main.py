@@ -34,7 +34,7 @@ def run_pipeline(steps):
     #! When we use the mlflow cli run its create run_id but this run_id is not exits in server
     #! to avoid this issue manually delete this run_id
     #? refer ---  https://github.com/mlflow/mlflow/issues/4830
-    del os.environ.pop("MLFLOW_RUN_ID",None)
+    os.environ.pop("MLFLOW_RUN_ID",None)
     
     with mlflow.start_run(run_name="pipeline",nested=True,experiment_id=experiment.experiment_id) as active_run:
         if "download_data" in active_steps:
