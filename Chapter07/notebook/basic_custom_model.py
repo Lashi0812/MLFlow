@@ -58,7 +58,7 @@ print(CONDA_ENV)
 
 MODEL_ARTIFACT_PATH = "inference_model"
 with mlflow.start_run(run_name="wrapped_inference_model") as active_run:
-    finetune_uri = "runs:/358ae5a40ea94727935d75ccf227e212/model"
+    finetune_uri = "runs:/ce8c1b97d4c4464496288a8f947aedbd/model"
     inference_uri = f"runs:/{active_run.info.run_id}/{MODEL_ARTIFACT_PATH}"
     mlflow.pyfunc.log_model(artifact_path=MODEL_ARTIFACT_PATH,
                             conda_env=CONDA_ENV,
