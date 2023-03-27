@@ -1,0 +1,13 @@
+mlflow models seUntitled-2rve -m models:/inference_pipeline_model/4
+
+
+
+curl http://127.0.0.1:5000/invocations -H 'Content-Type:
+application/json' -d '{
+ "dataframe_split":{
+ "columns": ["review"],
+ "data": [["This is the best movie we saw."], ["What a movie!"]]
+}
+}'
+
+
