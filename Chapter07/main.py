@@ -9,17 +9,20 @@ logger = logging.getLogger()
 _steps = [
     "download_data",
     "fine_tuning_model",
-    "register_model"
+    "register_model",
+    "inference_model"
 ]
 
 @click.command()
 @click.option("--steps",default="all",type=str)
+@click.option("--tracking_uri",default="http://127.0.0.1:81",type=str)
+@click.option("--s3_uri",default="http://127.0.0.1:9000",type=str)
 
-def run_pipeline(steps):
-    os.environ["MLFLOW_TRACKING_URI"] = "http://127.0.0.1:81"
+def run_pipeline(steps,tracking_uri,s3_uri):
+    os.environ["MLFLOW_TRACKING_URI"] = tracking_uri
     os.environ["AWS_ACCESS_KEY_ID"] = "minio"
     os.environ["AWS_SECRET_ACCESS_KEY"] = "minio123"
-    os.environ["MLFLOW_S3_ENDPOINT_URL"] = "http://127.0.0.1:9000"
+    os.environ["MLFLOW_S3_ENDPOINT_URL"] = s3_uri
     
     EXPERIMENT_NAME = "Inference"
     mlflow.set_experiment(EXPERIMENT_NAME)
@@ -61,6 +64,15 @@ def run_pipeline(steps):
                 logger.info(register_model_run)
             else:
                 logger.info("no model to register since no trained model run id.")
+                
+        if "inference_model" in active_steps:
+            if finetune_run_id is not None and finetune_run_id != 'None':
+                inference_model_run = mlflow.run(".", "inference_model", parameters={"finetune_model_uri": finetune_run_id},
+                                                run_name="inference_model",experiment_id=experiment.experiment_id,)
+                inference_model_run = mlflow.tracking.MlflowClient().get_run(inference_model_run.run_id)
+                logger.info(inference_model_run)
+            else:
+                logger.info("no finetune model to create inference model")
     logger.info('finished mlflow pipeline run with a run_id = %s', active_run.info.run_id)
 
 

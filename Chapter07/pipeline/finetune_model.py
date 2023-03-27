@@ -28,7 +28,7 @@ def task(foundation_model,finetune_strategy,data_path):
                            labels=data_module.labels,
                            backbone=foundation_model)
     
-    trainer = flash.Trainer(max_epochs=3,gpus=torch.cuda.device_count())
+    trainer = flash.Trainer(max_epochs=1,gpus=torch.cuda.device_count())
     
     mlflow.pytorch.autolog()
     with mlflow.start_run(run_name="finetune") as tracker:

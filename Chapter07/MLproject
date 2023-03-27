@@ -7,7 +7,13 @@ entry_points:
       pipeline_steps:
         type: str
         default: all
-    command: "python main.py --steps {pipeline_steps}"
+      tracking_uri:
+        type: str
+        default : http://localhost:81
+      s3_uri:
+        type: str
+        default: http://localhost:9000
+    command: "python main.py --steps {pipeline_steps} --tracking_uri {tracking_uri} --s3_uri {s3_uri}"
 
   download_data:
     parameters:
@@ -50,4 +56,12 @@ entry_points:
     command:
       "python pipeline/register_model.py --mlflow_run_id {mlflow_run_id} \
       --registered_model_name {registered_model_name}"
+
+  inference_model:
+    parameters:
+      finetune_model_uri:
+        type: str
+        default: None
+    command:
+      "python pipeline/inference_model.py --finetune_model_uri {finetune_model_uri}"
       
